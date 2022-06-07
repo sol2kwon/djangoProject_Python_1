@@ -7,6 +7,7 @@ class Data_digits:
         self.digits =load_digits()
         self.samples = [0, 10, 20, 30, 1, 11, 21, 31]
         self.d = []
+
         [self.d.append(self.digits.images[self.samples[i]]) for i in range(8)]
     def data(self):
         # for i in range(8):
@@ -22,12 +23,11 @@ class Data_digits:
             plt.title("image {}".format(i + 1))
         plt.suptitle("숫자 0과 1 이미지")
         plt.tight_layout()
-        plt.show()
+        #plt.show()
+        plt.savefig('test_2.png', facecolor='#eeeeee')
 
     def vector_image(self):
-        v = []
-        for i in range(8):
-            v.append(self.d[i].reshape(64, 1))  # 벡터화
+        v = [self.d[i].reshape(64, 1) for i in range(8)]
 
         plt.figure(figsize=(8, 3))
         for i in range(8):
@@ -40,7 +40,8 @@ class Data_digits:
             plt.title("벡터 {}".format(i + 1))
         plt.suptitle("벡터화된 이미지", y=1.05)
         plt.tight_layout(w_pad=7)
-        plt.show()
+        #plt.show()
+        plt.savefig('test_2.png',facecolor='#eeeeee')
 
 if __name__ == '__main__':
     Data_digits().data()
