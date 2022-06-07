@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from abc import *
 @dataclass
 class Dataset:
     dname: str
@@ -50,6 +51,42 @@ class Dataset:
 
     @label.setter
     def label(self, label): self._label = label
+
+class PrinterBase(metaclass=ABCMeta):
+    @abstractmethod
+    def dframe(self):
+        pass
+
+#new_file,csv,xls,json
+class ReaderBase(metaclass=ABCMeta):
+    @abstractmethod
+    def new_file(self):
+        pass
+
+    @abstractmethod
+    def csv(self):
+        pass
+
+    @abstractmethod
+    def xls(self):
+        pass
+
+    @abstractmethod
+    def json(self):
+        pass
+
+class Reader(ReaderBase):
+    @abstractmethod
+    def reader(self):
+        pass
+
+class Printer(PrinterBase):
+    @abstractmethod
+    def printer(self):
+        pass
+
+
+
 
 
 
