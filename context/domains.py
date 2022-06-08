@@ -1,5 +1,10 @@
+# context, fname, train, test, id, label
 from dataclasses import dataclass
 from abc import *
+import pandas as pd
+import googlemaps
+
+
 @dataclass
 class Dataset:
     dname: str
@@ -52,41 +57,74 @@ class Dataset:
     @label.setter
     def label(self, label): self._label = label
 
+
 class PrinterBase(metaclass=ABCMeta):
     @abstractmethod
     def dframe(self):
         pass
+    # new_file, csv, xls, json
 
-#new_file,csv,xls,json
+
 class ReaderBase(metaclass=ABCMeta):
     @abstractmethod
-    def new_file(self):
+    def new_file(self, file) -> str:
         pass
 
     @abstractmethod
-    def csv(self):
+    def csv(self) -> object:
         pass
 
     @abstractmethod
-    def xls(self):
+    def xls(self) -> object:
         pass
 
     @abstractmethod
-    def json(self):
+    def json(self) -> object:
         pass
 
+
+# Reader
+# Printer
 class Reader(ReaderBase):
-    @abstractmethod
-    def reader(self):
-        pass
+    def new_file(self, file) -> str:
+        return file.context + file.fname
+
+    def csv(self, fname) -> object:
+        return pd.read_csv(f'{self.new_file(fname)}.csv', encoding='UTF-8', thousands=',')
+
+    def xls(self, fname, header, cols) -> object:
+        return pd.read_excel(f'{self.new_file(fname)}.xls', header=header, usecols=cols)
+
+    def json(self, fname) -> object:
+        return pd.read_json(f'{self.new_file(fname)}.json', encoding='UTF-8')
+
+    def gmaps(self) -> object:
+        return googlemaps.Client(key='')
+
 
 class Printer(PrinterBase):
-    @abstractmethod
-    def printer(self):
+    def dframe(self, this):
         pass
 
+class File(object):
+    context: str
+    fname: str
+    dframe: object
 
+    @property
+    def context(self) -> str: return self._context
 
+    @context.setter
+    def context(self, context): self._context = context
 
+    @property
+    def fname(self) -> str: return self._fname
 
+    @fname.setter
+    def fname(self, fname): self._fname = fname
 
+    @property
+    def dframe(self) -> str: return self._dframe
+
+    @dframe.setter
+    def dframe(self, dframe): self._dframe = dframe
