@@ -27,6 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tmc',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3307'
+    }
+}
+
 
 # Application definition
 
